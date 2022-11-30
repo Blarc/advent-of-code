@@ -1,48 +1,60 @@
-package day00
+package main
 
 import (
-	"math"
+	_ "embed"
+	"flag"
+	"fmt"
 	"strconv"
 	"strings"
 )
 
-func part1(input string) (int, error) {
-	splits := strings.Split(strings.TrimSpace(input), "\n")
+//go:embed sample.txt
+var sample string
 
-	previous := math.MaxInt
-	count := 0
-	for _, s := range splits {
-		value, err := strconv.Atoi(s)
-		if err != nil {
-			return 0, err
+//go:embed input.txt
+var input string
+
+func part1(input string) int {
+	var increased int
+	var previous int
+	for i, l := range strings.Split(input, "\n") {
+
+		var current, _ = strconv.Atoi(l)
+		if i > 0 {
+			if current > previous {
+				increased++
+			}
 		}
-		if value > previous {
-			count++
-		}
-		previous = value
+		previous = current
 	}
-
-	return count, nil
+	return increased
 }
 
-func part2(input string) (int, error) {
-	splits := strings.Split(strings.TrimSpace(input), "\n")
+func part2(input string) int {
+	return 2
+}
 
-	const windowSize = 3
-	values := make([]int, len(splits))
-	count := 0
-	for i, s := range splits {
-		value, err := strconv.Atoi(s)
-		if err != nil {
-			return 0, err
-		}
-		values[i] = value
+func main() {
 
-		indexToRemove := i - windowSize
-		if indexToRemove >= 0 && value > values[indexToRemove] {
-			count++
-		}
+	inputPtr := flag.Bool("input", false, "sample or input")
+
+	var part int
+	flag.IntVar(&part, "part", 1, "part 1 or 2")
+
+	flag.Parse()
+
+	var inputText string
+	if *inputPtr {
+		inputText = input
+		fmt.Println("Running part", part, "on input.txt.")
+	} else {
+		inputText = sample
+		fmt.Println("Running part", part, "on sample.txt.")
 	}
 
-	return count, nil
+	if part == 1 {
+		fmt.Println("Result:", part1(inputText))
+	} else {
+		fmt.Println("Result:", part2(inputText))
+	}
 }
