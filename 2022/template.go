@@ -1,15 +1,30 @@
 package main
 
 import (
+	_ "embed"
 	"flag"
 	"fmt"
+	"strconv"
+	"strings"
 )
 
-func part1() int {
-	return 1
+//go:embed sample.txt
+var sample string
+
+//go:embed input.txt
+var input string
+
+func part1(input string) int {
+	var increased int
+	var previous int
+	for i, l := range strings.Split(input, "\n") {
+
+		var current, _ = strconv.Atoi(l)
+	}
+	return increased
 }
 
-func part2() int {
+func part2(input string) int {
 	return 2
 }
 
@@ -22,15 +37,18 @@ func main() {
 
 	flag.Parse()
 
-	var input string = "sample.txt"
+	var inputText string
 	if *inputPtr {
-		input = "input.txt"
+		inputText = input
+		fmt.Println("Running part", part, "on input.txt.")
+	} else {
+		inputText = sample
+		fmt.Println("Running part", part, "on sample.txt.")
 	}
 
-	fmt.Println("Running part", part, "on", input)
 	if part == 1 {
-		fmt.Println("Result:", part1())
+		fmt.Println("Result:", part1(inputText))
 	} else {
-		fmt.Println("Result:", part2())
+		fmt.Println("Result:", part2(inputText))
 	}
 }
