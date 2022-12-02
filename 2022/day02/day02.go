@@ -77,29 +77,27 @@ func part2(input string) int {
 		round_end := split[1]
 
 		var me string
+		round := 0
 		if round_end == "X" {
 			// lose
 			me = loser[opponent]
 		} else if round_end == "Y" {
 			// draw
 			me = opponent
+			round += 3
 		} else if round_end == "Z" {
 			// win
 			me = winner[opponent]
+			round += 6
 		} else {
 			panic("Something went wrong!")
 		}
 
-		fmt.Println(opponent, "vs", me)
-		round := points[me]
-		if opponent == me {
-			round += 3
-		} else if winner[opponent] == me {
-			round += 6
-		}
-
-		fmt.Println(round)
+		round += points[me]
 		result += round
+
+		fmt.Println(opponent, "vs", me)
+		fmt.Println(round)
 
 	}
 	return result
