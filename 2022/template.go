@@ -15,13 +15,11 @@ var sample string
 var input string
 
 func part1(input string) int {
-	var increased int
-	var previous int
 	for i, l := range strings.Split(input, "\n") {
 
 		var current, _ = strconv.Atoi(l)
 	}
-	return increased
+	return 1
 }
 
 func part2(input string) int {
