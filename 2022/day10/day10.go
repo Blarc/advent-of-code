@@ -65,14 +65,14 @@ func part2(input string) int {
 				if x-1 <= cycles && cycles <= x+1 {
 					fmt.Printf("#")
 				} else {
-					fmt.Printf(".")
+					fmt.Printf(" ")
 				}
 
 				cycles += 1
 
 				if cycles != 0 && cycles%40 == 0 {
 					// fmt.Println(cycles, x, x*cycles)
-					fmt.Print(cycles)
+					// fmt.Print(cycles)
 					cycles -= 40
 					fmt.Println()
 				}
@@ -83,14 +83,14 @@ func part2(input string) int {
 			if x-1 <= cycles && cycles <= x+1 {
 				fmt.Printf("#")
 			} else {
-				fmt.Printf(".")
+				fmt.Printf(" ")
 			}
 
 			cycles += 1
 
 			if cycles != 0 && cycles%40 == 0 {
 				// fmt.Println(cycles, x, x*cycles)
-				fmt.Print(cycles)
+				// fmt.Print(cycles)
 				cycles -= 40
 				fmt.Println()
 			}
@@ -99,7 +99,6 @@ func part2(input string) int {
 		}
 
 	}
-	fmt.Println()
 	return 2
 }
 
