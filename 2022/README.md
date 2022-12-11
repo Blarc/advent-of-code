@@ -14,5 +14,7 @@ My solutions of the Advent of Code 2022 in **Go**.
 | 7   | [ No Space Left On Device    ](day07) | ★★   |
 | 8   | [ Treetop Tree House         ](day08) | ★★   |
 | 9   | [ Rope Bridge                ](day09) | ★★   |
-| 10  | [ Cathode-Ray Tube           ](day19) | ★★   |
+| 10  | [ Cathode-Ray Tube           ](day10) | ★★   |
+| 11  | [ Monkey in the Middle       ](day11) | ★★   |
+
 
