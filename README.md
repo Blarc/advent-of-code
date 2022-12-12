@@ -14,4 +14,4 @@ This repository contains one directory for each year of Advent of Code, organize
 | ---------------| :---: |
 | [ 2018 ](2018) | 4     |
 | [ 2021 ](2021) | 36    |
-| [ 2022 ](2022) | 20    |
+| [ 2022 ](2022) | 24    |

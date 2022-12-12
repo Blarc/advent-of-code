@@ -16,5 +16,6 @@ My solutions of the Advent of Code 2022 in **Go**.
 | 9   | [ Rope Bridge                ](day09) | ★★   |
 | 10  | [ Cathode-Ray Tube           ](day10) | ★★   |
 | 11  | [ Monkey in the Middle       ](day11) | ★★   |
+| 12  | [ Hill Climbing Algorithm    ](day12) | ★★   |
 
 
