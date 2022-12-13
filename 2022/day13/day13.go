@@ -57,62 +57,80 @@ func parse(input string) []interface{} {
 	return cur
 }
 
-func compare(left []interface{}, right []interface{}) bool {
-
-	for i := 0; i < len(left); i++ {
-
-		// If the right list runs out of items first, the inputs are not in the right order.
-		if i > len(right)-1 {
-			return false
-		}
-
-		leftType := reflect.TypeOf(left[i]).Kind()
-		rightType := reflect.TypeOf(right[i]).Kind()
-
-		// Compare integer and integer
-		if leftType == reflect.Int && rightType == reflect.Int {
-			leftValue, _ := left[i].(int)
-			rightValue, _ := right[i].(int)
-
-			// fmt.Println("Compare:", leftValue, "vs", rightValue)
-			if leftValue != rightValue {
-				return leftValue < rightValue
-			}
-
-			// Compare slice and slice
-		} else if leftType == reflect.Slice && rightType == reflect.Slice {
-			leftValue, _ := left[i].([]interface{})
-			rightValue, _ := right[i].([]interface{})
-
-			comparison := compare(leftValue, rightValue)
-			// fmt.Println("Compare:", leftValue, "vs", rightValue, comparison)
-
-			return comparison
-			// Compare slice and integer
-		} else if leftType == reflect.Slice && rightType == reflect.Int {
-			leftValue, _ := left[i].([]interface{})
-			rightValue := []interface{}{right[i]}
-
-			comparison := compare(leftValue, rightValue)
-			// fmt.Println("Compare:", leftValue, "vs", rightValue, comparison)
-			return comparison
-
-			// Compare integer and slice
-		} else if leftType == reflect.Int && rightType == reflect.Slice {
-			leftValue := []interface{}{left[i]}
-			rightValue, _ := right[i].([]interface{})
-
-			comparison := compare(leftValue, rightValue)
-			// fmt.Println("Compare:", leftValue, "vs", rightValue, comparison)
-			return comparison
-
-		} else {
-			panic("Wrong types!" + leftType.String() + rightType.String())
-		}
-
+func min(a int, b int) int {
+	if a < b {
+		return a
 	}
+	return b
+}
 
-	return true
+func compare(left interface{}, right interface{}) int {
+
+	leftType := reflect.TypeOf(left).Kind()
+	rightType := reflect.TypeOf(right).Kind()
+
+	if leftType == reflect.Int && rightType == reflect.Int {
+		// Compare integers
+
+		leftValue, _ := left.(int)
+		rightValue, _ := right.(int)
+
+		// If the left integer is lower than the right integer, the inputs are in the right order.
+		comparison := 0
+		if leftValue < rightValue {
+			comparison = 1
+		} else if leftValue > rightValue {
+			comparison = -1
+		}
+
+		fmt.Println("Compare int and int:", leftValue, "vs", rightValue, comparison)
+		return comparison
+
+	} else if leftType == reflect.Slice && rightType == reflect.Slice {
+		// Compare slice and slice
+
+		leftValue, _ := left.([]interface{})
+		rightValue, _ := right.([]interface{})
+
+		for i := 0; i < min(len(leftValue), len(rightValue)); i++ {
+
+			fmt.Println("Compare slice and slice:", leftValue, "vs", rightValue)
+			comparison := compare(leftValue[i], rightValue[i])
+
+			if comparison != 0 {
+				return comparison
+			}
+		}
+
+		if len(leftValue) < len(rightValue) {
+			return 1
+		} else if len(leftValue) > len(rightValue) {
+			return -1
+		} else {
+			return 0
+		}
+
+		// Compare slice and integer
+	} else if leftType == reflect.Slice && rightType == reflect.Int {
+		leftValue, _ := left.([]interface{})
+		rightValue := []interface{}{right.(int)}
+
+		fmt.Println("Compare slice and int:", leftValue, "vs", rightValue)
+		comparison := compare(leftValue, rightValue)
+		return comparison
+
+		// Compare integer and slice
+	} else if leftType == reflect.Int && rightType == reflect.Slice {
+		leftValue := []interface{}{left.(int)}
+		rightValue, _ := right.([]interface{})
+
+		fmt.Println("Compare int and slice:", leftValue, "vs", rightValue)
+		comparison := compare(leftValue, rightValue)
+		return comparison
+
+	} else {
+		panic("Wrong types!" + leftType.String() + rightType.String())
+	}
 }
 
 func part1(input string) int {
@@ -124,14 +142,14 @@ func part1(input string) int {
 	for i := 0; i < len(lines); i += 3 {
 		a := parse(lines[i][1 : len(lines[i])-1])
 		b := parse(lines[i+1][1 : len(lines[i+1])-1])
-		// fmt.Println(a)
-		// fmt.Println(b)
+		fmt.Println(a)
+		fmt.Println(b)
 		comparison := compare(a, b)
 
-		// fmt.Println(comparison)
+		fmt.Println(comparison)
 
-		if comparison {
-			fmt.Println(pairIndex - 1)
+		if comparison == 1 {
+			// fmt.Println(pairIndex - 1)
 
 			result += pairIndex
 		}
@@ -141,6 +159,7 @@ func part1(input string) int {
 	}
 
 	// 5604
+	// 5852
 	return result
 
 }
