@@ -74,7 +74,7 @@ func compare(left []interface{}, right []interface{}) bool {
 			leftValue, _ := left[i].(int)
 			rightValue, _ := right[i].(int)
 
-			fmt.Println("Compare:", leftValue, rightValue)
+			// fmt.Println("Compare:", leftValue, "vs", rightValue)
 			if leftValue != rightValue {
 				return leftValue < rightValue
 			}
@@ -83,29 +83,29 @@ func compare(left []interface{}, right []interface{}) bool {
 		} else if leftType == reflect.Slice && rightType == reflect.Slice {
 			leftValue, _ := left[i].([]interface{})
 			rightValue, _ := right[i].([]interface{})
-			fmt.Println("Compare:", leftValue, rightValue)
 
-			if !compare(leftValue, rightValue) {
-				return false
-			}
+			comparison := compare(leftValue, rightValue)
+			// fmt.Println("Compare:", leftValue, "vs", rightValue, comparison)
+
+			return comparison
 			// Compare slice and integer
 		} else if leftType == reflect.Slice && rightType == reflect.Int {
 			leftValue, _ := left[i].([]interface{})
 			rightValue := []interface{}{right[i]}
-			fmt.Println("Compare:", leftValue, rightValue)
 
-			if !compare(leftValue, rightValue) {
-				return false
-			}
+			comparison := compare(leftValue, rightValue)
+			// fmt.Println("Compare:", leftValue, "vs", rightValue, comparison)
+			return comparison
+
 			// Compare integer and slice
 		} else if leftType == reflect.Int && rightType == reflect.Slice {
 			leftValue := []interface{}{left[i]}
 			rightValue, _ := right[i].([]interface{})
-			fmt.Println("Compare:", leftValue, rightValue)
 
-			if !compare(leftValue, rightValue) {
-				return false
-			}
+			comparison := compare(leftValue, rightValue)
+			// fmt.Println("Compare:", leftValue, "vs", rightValue, comparison)
+			return comparison
+
 		} else {
 			panic("Wrong types!" + leftType.String() + rightType.String())
 		}
@@ -124,14 +124,15 @@ func part1(input string) int {
 	for i := 0; i < len(lines); i += 3 {
 		a := parse(lines[i][1 : len(lines[i])-1])
 		b := parse(lines[i+1][1 : len(lines[i+1])-1])
-
-		fmt.Println(a)
-		fmt.Println(b)
+		// fmt.Println(a)
+		// fmt.Println(b)
 		comparison := compare(a, b)
-		fmt.Println(comparison)
+
+		// fmt.Println(comparison)
 
 		if comparison {
-			// fmt.Println(pairIndex)
+			fmt.Println(pairIndex - 1)
+
 			result += pairIndex
 		}
 
