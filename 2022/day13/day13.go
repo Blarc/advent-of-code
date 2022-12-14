@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -83,7 +84,7 @@ func compare(left interface{}, right interface{}) int {
 			comparison = -1
 		}
 
-		fmt.Println("Compare int and int:", leftValue, "vs", rightValue, comparison)
+		//  fmt.Println("Compare int and int:", leftValue, "vs", rightValue, comparison)
 		return comparison
 
 	} else if leftType == reflect.Slice && rightType == reflect.Slice {
@@ -94,7 +95,7 @@ func compare(left interface{}, right interface{}) int {
 
 		for i := 0; i < min(len(leftValue), len(rightValue)); i++ {
 
-			fmt.Println("Compare slice and slice:", leftValue, "vs", rightValue)
+			//  fmt.Println("Compare slice and slice:", leftValue, "vs", rightValue)
 			comparison := compare(leftValue[i], rightValue[i])
 
 			if comparison != 0 {
@@ -115,7 +116,7 @@ func compare(left interface{}, right interface{}) int {
 		leftValue, _ := left.([]interface{})
 		rightValue := []interface{}{right.(int)}
 
-		fmt.Println("Compare slice and int:", leftValue, "vs", rightValue)
+		//  fmt.Println("Compare slice and int:", leftValue, "vs", rightValue)
 		comparison := compare(leftValue, rightValue)
 		return comparison
 
@@ -124,7 +125,7 @@ func compare(left interface{}, right interface{}) int {
 		leftValue := []interface{}{left.(int)}
 		rightValue, _ := right.([]interface{})
 
-		fmt.Println("Compare int and slice:", leftValue, "vs", rightValue)
+		//  fmt.Println("Compare int and slice:", leftValue, "vs", rightValue)
 		comparison := compare(leftValue, rightValue)
 		return comparison
 
@@ -165,7 +166,35 @@ func part1(input string) int {
 }
 
 func part2(input string) int {
-	return 2
+	lines := strings.Split(input, "\n")
+
+	var packets []interface{}
+
+	for i := 0; i < len(lines); i += 3 {
+		a := parse(lines[i][1 : len(lines[i])-1])
+		b := parse(lines[i+1][1 : len(lines[i+1])-1])
+
+		packets = append(packets, a)
+		packets = append(packets, b)
+	}
+
+	packets = append(packets, parse("[2]"))
+	packets = append(packets, parse("[6]"))
+
+	sort.SliceStable(packets, func(i, j int) bool {
+		return compare(packets[i], packets[j]) == 1
+	})
+
+	result := 1
+	for i, packet := range packets {
+
+		packetStr := fmt.Sprint(packet)
+		if packetStr == "[[2]]" || packetStr == "[[6]]" {
+			result *= (i + 1)
+		}
+	}
+
+	return result
 }
 
 func main() {
