@@ -3,3 +3,6 @@ venv
 .classpath
 .project
 bin
+
+input.txt
+sample.txt
