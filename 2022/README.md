@@ -20,6 +20,10 @@ My solutions of the Advent of Code 2022 in **Go**.
 | 13  | [ Distress Signal            ](day13) | ★★   |
 | 14  | [ Regolith Reservoir         ](day14) | ★★   |
 | 15  | [ Beacon Exclusion Zone      ](day15) | ★★   |
+| 16  | [ Proboscidea Volcanium      ](day16) | ★★   |
+| 17  | [ Pyroclastic Flow           ](day17) | ★★   |
+| 18  | [ Boiling Boulders           ](day18) | ★★   |
+
 
 
 
