@@ -23,6 +23,7 @@ My solutions of the Advent of Code 2022 in **Go**.
 | 16  | [ Proboscidea Volcanium      ](day16) | ★★   |
 | 17  | [ Pyroclastic Flow           ](day17) | ★★   |
 | 18  | [ Boiling Boulders           ](day18) | ★★   |
+| 19  | [ Not Enough Minerals        ](day19) | ★★   |
 
 
 
