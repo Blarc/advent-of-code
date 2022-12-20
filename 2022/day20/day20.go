@@ -29,7 +29,7 @@ func part1(input string) int {
 	zeroIndex := 0
 	for i, l := range lines {
 		number, _ := strconv.Atoi(l)
-		a[i] = []int{number % len(lines), i, number}
+		a[i] = []int{number % (len(lines) - 1), i, number}
 		if number == 0 {
 			zeroIndex = i
 		}
@@ -137,7 +137,80 @@ func part1(input string) int {
 }
 
 func part2(input string) int {
-	return 2
+
+	lines := strings.Split(input, "\n")
+	a := make([][]int, len(lines))
+
+	zeroIndex := 0
+	for i, l := range lines {
+		number, _ := strconv.Atoi(l)
+		a[i] = []int{number * 811589153 % (len(lines) - 1), i, number * 811589153}
+		if number == 0 {
+			zeroIndex = i
+		}
+	}
+
+	for k := 0; k < 10; k++ {
+		for i := 0; i < len(a); i++ {
+			// fmt.Println("moving", a[i][0], a[i][1])
+			val := a[i][0]
+			prev := a[i][1]
+
+			corrector := 0
+
+			if prev+val <= 0 {
+				val--
+			} else if prev+val >= len(a)-1 {
+				val++
+			}
+
+			new := mod((prev + val), len(a))
+			a[i][1] = new
+
+			if prev > new {
+				tmp := prev
+				prev = new
+				new = tmp
+				corrector = 1
+			} else {
+				corrector = -1
+			}
+
+			for j := 0; j < len(a); j++ {
+				if prev <= a[j][1] && a[j][1] <= new && i != j {
+					a[j][1] = mod((a[j][1] + corrector), len(a))
+				}
+			}
+
+		}
+
+	}
+	result := 0
+
+	fmt.Println(zeroIndex)
+	fmt.Println(a[zeroIndex])
+	for i := 1; i < 4; i++ {
+		x := mod(a[zeroIndex][1]+i*1000, len(a))
+		fmt.Println(x)
+
+		for j := 0; j < len(a); j++ {
+			if x == a[j][1] {
+				fmt.Println(a[j])
+				result += a[j][2]
+			}
+		}
+	}
+
+	test := make(map[int]bool)
+	for i := 0; i < len(a); i++ {
+		test[a[i][1]] = true
+	}
+
+	// fmt.Println(a)
+	fmt.Println(len(test) == len(a))
+
+	// 2008 too low
+	return result
 }
 
 func main() {
