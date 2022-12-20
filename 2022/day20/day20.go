@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 //go:embed sample.txt
@@ -231,9 +232,12 @@ func main() {
 		fmt.Println("Running part", part, "on sample.txt.")
 	}
 
+	start := time.Now()
 	if part == 1 {
 		fmt.Println("Result:", part1(inputText))
 	} else {
 		fmt.Println("Result:", part2(inputText))
 	}
+	fmt.Println("Time:", fmt.Sprintf("%d ms", time.Since(start).Milliseconds()))
+
 }
