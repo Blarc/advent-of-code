@@ -85,12 +85,97 @@ func abs(x int) int {
 	return x
 }
 
+func getReverseOp(op string) string {
+	if op == "+" {
+		return "-"
+	} else if op == "-" {
+		return "+"
+	} else if op == "*" {
+		return "/"
+	} else if op == "/" {
+		return "*"
+	} else {
+		panic("Invalid operation!")
+	}
+}
+
+func doReverseOp(x int, y int, op string) int {
+	if op == "+" {
+		return x - y
+	} else if op == "-" {
+		return x + y
+	} else if op == "*" {
+		return x / y
+	} else if op == "/" {
+		return x * y
+	} else {
+		panic("Invalid operation!")
+	}
+}
+
+func doOp(x, y int, op string) int {
+	if op == "+" {
+		return x + y
+	} else if op == "-" {
+		return x - y
+	} else if op == "*" {
+		return x * y
+	} else if op == "/" {
+		return x / y
+	} else {
+		panic("Invalid operation!")
+	}
+}
+
+func rec(a string, ops map[string][]string, ops2 map[string][]string, vars map[string]int, visited map[string]bool) int {
+	// Check if variable is already in map
+	v, e := vars[a]
+	if e {
+		return v
+	}
+
+	// Check if variable can be computed directly
+	aOperation, aOperationExists := ops[a]
+	if aOperationExists && !visited[a] {
+		visited[a] = true
+
+		first := rec(aOperation[1], ops, ops2, vars, visited)
+		second := rec(aOperation[2], ops, ops2, vars, visited)
+
+		r := doOp(first, second, aOperation[3])
+		vars[a] = r
+		return r
+	}
+
+	// Find operation that contains the variable
+	// and turn it around to get the value
+	cOperation := ops2[a]
+	x := rec(cOperation[0], ops, ops2, vars, visited)
+	vars[cOperation[0]] = x
+	var y int
+	if cOperation[1] == a {
+		y = rec(cOperation[2], ops, ops2, vars, visited)
+		vars[cOperation[2]] = y
+	} else {
+		y = rec(cOperation[1], ops, ops2, vars, visited)
+		vars[cOperation[1]] = y
+	}
+
+	r := doReverseOp(x, y, cOperation[3])
+	vars[a] = r
+	return r
+
+}
+
 func part2(input string) int {
 	numberRe := regexp.MustCompile("[0-9]+")
 	varRe := regexp.MustCompile("[a-z]+")
 
 	root := []string{}
 	vars := make(map[string]int)
+	vars2 := make(map[string]int)
+	ops := make(map[string][]string)
+	ops2 := make(map[string][]string)
 
 	stack := [][]string{}
 
@@ -106,70 +191,60 @@ func part2(input string) int {
 			op := string(l[11])
 			varNames = append(varNames, op)
 			stack = append(stack, varNames)
+			ops[varNames[0]] = varNames
+			ops2[varNames[1]] = varNames
+			ops2[varNames[2]] = varNames
 
 		} else {
 			x, _ := strconv.Atoi(numberRe.FindString(l))
 			vars[varNames[0]] = x
+			vars2[varNames[0]] = x
 		}
 	}
 
-	testNumber := 5069554000000
+	newStack := make([][]string, len(stack))
+	for i := 0; i < len(stack); i++ {
+		newStack[i] = make([]string, len(stack[i]))
+		copy(newStack[i], stack[i])
+	}
 
-	for {
+	for len(newStack) > 0 {
+		// Top element
+		n := len(newStack) - 1
+		op := newStack[n]
+		// Pop
+		newStack = newStack[:n]
 
-		// fmt.Println("Trying:", testNumber)
-		vars["humn"] = testNumber
-		newStack := make([][]string, len(stack))
-
-		for i := 0; i < len(stack); i++ {
-			newStack[i] = make([]string, len(stack[i]))
-			copy(newStack[i], stack[i])
-		}
-
-		// fmt.Println(newStack)
-		// fmt.Println(vars)
-
-		for len(newStack) > 0 {
-			// Top element
-			n := len(newStack) - 1
-			op := newStack[n]
-			// Pop
-			newStack = newStack[:n]
-
-			// fmt.Println(vars, op[1:len(op)-1])
-			if varsExist(op[1:len(op)-1], vars) {
-				if op[3] == "+" {
-					vars[op[0]] = vars[op[1]] + vars[op[2]]
-				} else if op[3] == "-" {
-					vars[op[0]] = vars[op[1]] - vars[op[2]]
-				} else if op[3] == "*" {
-					vars[op[0]] = vars[op[1]] * vars[op[2]]
-				} else if op[3] == "/" {
-					vars[op[0]] = vars[op[1]] / vars[op[2]]
-				} else {
-					panic("Invalid operation!")
-				}
-				// fmt.Println(op, vars[op[1]], op[3], vars[op[2]], vars[op[0]])
+		if varsExist(op[1:len(op)-1], vars) {
+			if op[3] == "+" {
+				vars[op[0]] = vars[op[1]] + vars[op[2]]
+			} else if op[3] == "-" {
+				vars[op[0]] = vars[op[1]] - vars[op[2]]
+			} else if op[3] == "*" {
+				vars[op[0]] = vars[op[1]] * vars[op[2]]
+			} else if op[3] == "/" {
+				vars[op[0]] = vars[op[1]] / vars[op[2]]
 			} else {
-				stack = append([][]string{op}, stack...)
+				panic("Invalid operation!")
 			}
-		}
-
-		// fmt.Println(vars[root[0]], "?=", vars[root[1]])
-		a, ae := vars[root[0]]
-		b, be := vars[root[1]]
-		if !ae || !be || a != b {
-			testNumber += 1
 		} else {
-			break
+			newStack = append([][]string{op}, newStack...)
 		}
-
 	}
 
-	fmt.Println(root)
-	fmt.Println(vars[root[0]])
-	fmt.Println(vars[root[1]])
-	return testNumber
+	result := vars[root[1]]
+	fmt.Println("Must be equal to:", result)
+
+	delete(vars2, "humn")
+	delete(vars2, "root")
+
+	delete(ops, "root")
+	delete(ops2, "root")
+
+	vars2[root[0]] = result
+	vars2[root[1]] = result
+
+	return rec("humn", ops, ops2, vars2, map[string]bool{})
 }
 
 func main() {
