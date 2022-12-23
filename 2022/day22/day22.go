@@ -18,19 +18,18 @@ var sample string
 var input string
 
 type Side struct {
-	y   int
-	x   int
-	rot int
+	y int
+	x int
 
 	up    string
 	down  string
 	left  string
 	right string
 
-	upRot    int
-	downRot  int
-	leftRot  int
-	rightRot int
+	moveUp    func(y, x, a int) (int, int, string)
+	moveDown  func(y, x, a int) (int, int, string)
+	moveLeft  func(y, x, a int) (int, int, string)
+	moveRight func(y, x, a int) (int, int, string)
 
 	walls map[string]bool
 }
@@ -309,6 +308,217 @@ func part1(input string) int {
 	return 1000*(y+side.y*a+1) + 4*(x+side.x*a+1) + dirValue
 }
 
+/*
+func mapSidesSample(sides map[string]Side) {
+	key := createKey(0, 2)
+	A := sides[key]
+	A.up = createKey(1, 0)
+	A.down = createKey(1, 2)
+	A.left = createKey(1, 1)
+	A.right = createKey(2, 3)
+
+	A.moveDown = 0
+	A.leftRot = 2
+	A.rightRot = 0
+	sides[key] = A
+
+	key = createKey(1, 0)
+	B := sides[key]
+	B.up = createKey(0, 2)
+	B.down = createKey(2, 2)
+	B.left = createKey(2, 3)
+	B.right = createKey(1, 1)
+	B.moveUp = 0
+	B.moveDown = 1
+	B.leftRot = 0
+	B.rightRot = 2
+	sides[key] = B
+
+	key = createKey(1, 1)
+	C := sides[key]
+	C.up = createKey(0, 2)
+	C.down = createKey(2, 2)
+	C.left = createKey(1, 0)
+	C.right = createKey(1, 2)
+	C.moveUp = 0
+	C.moveDown = 0
+	C.leftRot = 3
+	C.rightRot = 3
+	sides[key] = C
+
+	key = createKey(1, 2)
+	D := sides[key]
+	D.up = createKey(0, 2)
+	D.down = createKey(2, 2)
+	D.left = createKey(1, 1)
+	D.right = createKey(2, 3)
+	C.moveUp = 0
+	C.moveDown = 0
+	C.leftRot = 3
+	C.rightRot = 3
+	sides[key] = D
+
+	key = createKey(2, 1)
+	E := sides[key]
+	E.up = createKey(1, 2)
+	E.down = createKey(1, 0)
+	E.left = createKey(1, 1)
+	E.right = createKey(2, 3)
+	E.moveUp = 0
+	E.moveDown = 1
+	E.leftRot = 0
+	E.rightRot = 2
+	sides[key] = E
+
+	key = createKey(2, 3)
+	F := sides[key]
+	F.up = createKey(1, 2)
+	F.down = createKey(1, 0)
+	F.left = createKey(2, 2)
+	F.right = createKey(0, 2)
+	F.moveUp = 0
+	F.moveDown = 0
+	F.leftRot = 3
+	F.rightRot = 3
+	sides[key] = F
+}
+
+*/
+
+func mapSides(sides map[string]Side) {
+	key := createKey(0, 1)
+	A := sides[key]
+	A.up = createKey(3, 0)
+	A.down = createKey(1, 1)
+	A.left = createKey(2, 0)
+	A.right = createKey(0, 2)
+
+	A.moveUp = func(y, x, a int) (int, int, string) {
+		return x, 0, "right"
+	}
+
+	A.moveDown = func(y, x, a int) (int, int, string) {
+		return 0, x, "down"
+	}
+
+	A.moveLeft = func(y, x, a int) (int, int, string) {
+		return a - y - 1, 0, "right"
+	}
+
+	A.moveRight = func(y, x, a int) (int, int, string) {
+		return y, 0, "right"
+	}
+
+	sides[key] = A
+
+	key = createKey(0, 2)
+	B := sides[key]
+	B.up = createKey(3, 0)
+	B.down = createKey(1, 1)
+	B.left = createKey(0, 1)
+	B.right = createKey(2, 1)
+
+	B.moveUp = func(y, x, a int) (int, int, string) {
+		return a - 1, x, "up"
+	}
+
+	B.moveDown = func(y, x, a int) (int, int, string) {
+		return x, a - 1, "left"
+	}
+
+	B.moveLeft = func(y, x, a int) (int, int, string) {
+		return y, a - 1, "left"
+	}
+
+	B.moveRight = func(y, x, a int) (int, int, string) {
+		return a - y - 1, a - 1, "left"
+	}
+
+	sides[key] = B
+
+	key = createKey(1, 1)
+	C := sides[key]
+	C.up = createKey(0, 1)
+	C.down = createKey(2, 1)
+	C.left = createKey(2, 0)
+	C.right = createKey(0, 2)
+
+	C.moveUp = func(y, x, a int) (int, int, string) {
+		return a - 1, x, "up"
+	}
+	C.moveDown = func(y, x, a int) (int, int, string) {
+		return 0, x, "down"
+	}
+	C.moveLeft = func(y, x, a int) (int, int, string) {
+		return 0, y, "down"
+	}
+	C.moveRight = func(y, x, a int) (int, int, string) {
+		return a - 1, y, "up"
+	}
+	sides[key] = C
+
+	key = createKey(2, 0)
+	D := sides[key]
+	D.up = createKey(1, 1)
+	D.down = createKey(3, 0)
+	D.left = createKey(0, 1)
+	D.right = createKey(2, 1)
+
+	D.moveUp = func(y, x, a int) (int, int, string) {
+		return x, 0, "right"
+	}
+	D.moveDown = func(y, x, a int) (int, int, string) {
+		return 0, x, "down"
+	}
+	D.moveLeft = func(y, x, a int) (int, int, string) {
+		return a - y - 1, 0, "right"
+	}
+	D.moveRight = func(y, x, a int) (int, int, string) {
+		return y, 0, "right"
+	}
+	sides[key] = D
+
+	key = createKey(2, 1)
+	E := sides[key]
+	E.up = createKey(1, 1)
+	E.down = createKey(3, 0)
+	E.left = createKey(2, 0)
+	E.right = createKey(0, 2)
+	E.moveUp = func(y, x, a int) (int, int, string) {
+		return a - 1, x, "up"
+	}
+	E.moveDown = func(y, x, a int) (int, int, string) {
+		return x, a - 1, "left"
+	}
+	E.moveLeft = func(y, x, a int) (int, int, string) {
+		return y, a - 1, "left"
+	}
+	E.moveRight = func(y, x, a int) (int, int, string) {
+		return a - y - 1, a - 1, "left"
+	}
+	sides[key] = E
+
+	key = createKey(3, 0)
+	F := sides[key]
+	F.up = createKey(2, 0)
+	F.down = createKey(0, 2)
+	F.left = createKey(0, 1)
+	F.right = createKey(2, 1)
+	F.moveUp = func(y, x, a int) (int, int, string) {
+		return a - 1, x, "up"
+	}
+	F.moveDown = func(y, x, a int) (int, int, string) {
+		return 0, x, "down"
+	}
+	F.moveLeft = func(y, x, a int) (int, int, string) {
+		return 0, y, "down"
+	}
+	F.moveRight = func(y, x, a int) (int, int, string) {
+		return a - 1, y, "up"
+	}
+	sides[key] = F
+}
+
 func part2(input string) int {
 	surface := 0
 	for _, c := range input {
@@ -380,87 +590,20 @@ func part2(input string) int {
 		}
 	}
 
-	key := createKey(0, 1)
-	A := sides[key]
-	A.up = createKey(3, 0)
-	A.down = createKey(1, 1)
-	A.left = createKey(2, 0)
-	A.right = createKey(0, 2)
-	A.upRot = 1
-	A.downRot = 0
-	A.leftRot = 2
-	A.rightRot = 0
-	sides[key] = A
+	mapSides(sides)
+	// mapSidesSample(sides)
 
-	key = createKey(0, 2)
-	B := sides[key]
-	B.up = createKey(3, 0)
-	B.down = createKey(1, 1)
-	B.left = createKey(0, 1)
-	B.right = createKey(2, 1)
-	B.upRot = 0
-	B.downRot = 1
-	B.leftRot = 0
-	B.rightRot = 2
-	sides[key] = B
+	// for _, side := range sides {
+	// 	fmt.Println(
+	// 		side.y, side.x,
+	// 		"up", sides[side.up].y, sides[side.up].x,
+	// 		"down", sides[side.down].y, sides[side.down].x,
+	// 		"left", sides[side.left].y, sides[side.left].x,
+	// 		"right", sides[side.right].y, sides[side.right].x,
+	// 		"moveUp", side.moveUp,
+	// 		"moveDown", side.moveDown)
 
-	key = createKey(1, 1)
-	C := sides[key]
-	C.up = createKey(0, 1)
-	C.down = createKey(2, 1)
-	C.left = createKey(2, 0)
-	C.right = createKey(0, 2)
-	C.upRot = 0
-	C.downRot = 0
-	C.leftRot = 3
-	C.rightRot = 3
-	sides[key] = C
-
-	key = createKey(2, 0)
-	D := sides[key]
-	D.up = createKey(1, 1)
-	D.down = createKey(3, 0)
-	D.left = createKey(0, 1)
-	D.right = createKey(2, 1)
-	C.upRot = 0
-	C.downRot = 0
-	C.leftRot = 3
-	C.rightRot = 3
-	sides[key] = D
-
-	key = createKey(2, 1)
-	E := sides[key]
-	E.up = createKey(1, 1)
-	E.down = createKey(3, 0)
-	E.left = createKey(2, 0)
-	E.right = createKey(0, 2)
-	E.upRot = 0
-	E.downRot = 1
-	E.leftRot = 0
-	E.rightRot = 2
-	sides[key] = E
-
-	key = createKey(3, 0)
-	F := sides[key]
-	F.up = createKey(2, 1)
-	F.down = createKey(0, 1)
-	F.left = createKey(2, 0)
-	F.right = createKey(0, 2)
-	F.upRot = 0
-	F.downRot = 0
-	F.leftRot = 3
-	F.rightRot = 3
-	sides[key] = F
-
-	for _, side := range sides {
-		fmt.Println(
-			side.y, side.x,
-			"up", sides[side.up].y, sides[side.up].x,
-			"down", sides[side.down].y, sides[side.down].x,
-			"left", sides[side.left].y, sides[side.left].x,
-			"right", sides[side.right].y, sides[side.right].x)
-
-	}
+	// }
 
 	// Starting position
 	y := 0
@@ -468,12 +611,16 @@ func part2(input string) int {
 
 	// Starting side
 	side := sides[createKey(y, minX[x])]
+	// side := sides[createKey(3, 0)]
+
+	fmt.Println("start", y+side.y*a+1, x+side.x*a+1)
 
 	// Starting direction
 	dir := "right"
 
 	re := regexp.MustCompile("[0-9]+|R|L")
 	path := re.FindAllString(lines[len(lines)-1], -1)
+	// path := re.FindAllString("200R200", -1)
 	// fmt.Println(path)
 	for i := 0; i < len(path); i++ {
 		n, err := strconv.Atoi(path[i])
@@ -484,10 +631,11 @@ func part2(input string) int {
 					newY := y - 1
 
 					if newY < 0 {
-						newY = a - 1
-
-						if !sides[side.up].walls[createKey(newY, x)] {
+						newY, newX, newDir := side.moveUp(y, x, a)
+						if !sides[side.up].walls[createKey(newY, newX)] {
 							y = newY
+							x = newX
+							dir = newDir
 							side = sides[side.up]
 						} else {
 							break
@@ -503,10 +651,12 @@ func part2(input string) int {
 					newY := y + 1
 
 					if newY >= a {
-						newY = 0
+						newY, newX, newDir := side.moveDown(y, x, a)
 
-						if !sides[side.down].walls[createKey(newY, x)] {
+						if !sides[side.down].walls[createKey(newY, newX)] {
 							y = newY
+							x = newX
+							dir = newDir
 							side = sides[side.down]
 						} else {
 							break
@@ -521,10 +671,12 @@ func part2(input string) int {
 				} else if dir == "left" {
 					newX := x - 1
 					if newX < 0 {
-						newX = a - 1
+						newY, newX, newDir := side.moveLeft(y, x, a)
 
-						if !sides[side.left].walls[createKey(y, newX)] {
+						if !sides[side.left].walls[createKey(newY, newX)] {
+							y = newY
 							x = newX
+							dir = newDir
 							side = sides[side.left]
 						} else {
 							break
@@ -538,10 +690,11 @@ func part2(input string) int {
 				} else if dir == "right" {
 					newX := x + 1
 					if newX >= a {
-						newX = 0
-
-						if !sides[side.right].walls[createKey(y, newX)] {
+						newY, newX, newDir := side.moveRight(y, x, a)
+						if !sides[side.right].walls[createKey(newY, newX)] {
+							y = newY
 							x = newX
+							dir = newDir
 							side = sides[side.right]
 						} else {
 							break
@@ -596,8 +749,10 @@ func part2(input string) int {
 		dirValue = 3
 	}
 
-	fmt.Println(y+side.y*a+1, x+side.x*a+1, dirValue)
+	fmt.Println("end", y+side.y*a+1, x+side.x*a+1, dirValue)
 
+	// 40456 TOO LOW
+	// 67282 TOO LOW
 	return 1000*(y+side.y*a+1) + 4*(x+side.x*a+1) + dirValue
 }
 
