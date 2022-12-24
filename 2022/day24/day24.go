@@ -18,6 +18,10 @@ func createKey(y, x int) string {
 	return fmt.Sprintf("%d,%d", y, x)
 }
 
+func createKeyMemo(y, x, t int) string {
+	return fmt.Sprintf("%d,%d,%d", y, x, t)
+}
+
 func show(b, w map[string]bool, min, max []int) {
 	for y := min[0] - 1; y <= max[0]+1; y++ {
 		for x := min[1] - 1; x <= max[1]+1; x++ {
@@ -42,6 +46,7 @@ type Blizzard struct {
 }
 
 var blizzardMoves = [][]int{
+	// up, down, left, right
 	{-1, 0},
 	{1, 0},
 	{0, -1},
@@ -49,10 +54,10 @@ var blizzardMoves = [][]int{
 }
 
 var moves = [][]int{
-	{-1, 0},
 	{1, 0},
-	{0, -1},
 	{0, 1},
+	{-1, 0},
+	{0, -1},
 	{0, 0},
 }
 
@@ -91,6 +96,51 @@ func moveBlizzards(blizzards []Blizzard, min, max []int) map[string]bool {
 	return newPositions
 }
 
+func findPath(start, end []int, blizzards []Blizzard, walls map[string]bool, min, max []int) int {
+	memo := make(map[string]bool)
+	queue := [][]int{start}
+	blizzardPositions := map[string]bool{}
+
+	time := 0
+	result := 0
+	for {
+		// Pop
+		pos := queue[0]
+		queue = queue[1:]
+
+		// fmt.Println(pos)
+
+		// Made it to the end
+		if pos[0] == end[0] && pos[1] == end[1] {
+			fmt.Println("Made it to the end in", pos[2], "minutes.")
+			result = pos[2]
+			break
+		}
+
+		// Move blizzards
+		if pos[2] == time {
+			// fmt.Println("Minute", time)
+			// show(blizzardPositions, walls, min, max)
+			blizzardPositions = moveBlizzards(blizzards, min, max)
+			time++
+		}
+
+		for i := 0; i < len(moves); i++ {
+			newY := pos[0] + moves[i][0]
+			newX := pos[1] + moves[i][1]
+			newTime := pos[2] + 1
+
+			key := createKey(newY, newX)
+			if !walls[key] && !blizzardPositions[key] && !memo[createKeyMemo(newY, newX, newTime)] {
+				memo[createKeyMemo(newY, newX, newTime)] = true
+				queue = append(queue, []int{newY, newX, newTime})
+			}
+		}
+	}
+
+	return result
+}
+
 func part1(input string) int {
 
 	lines := strings.Split(input, "\n")
@@ -126,47 +176,48 @@ func part1(input string) int {
 	start := []int{0, 1, 0}
 	end := []int{len(lines) - 1, len(lines[0]) - 2}
 
-	queue := [][]int{start}
+	return findPath(start, end, blizzards, walls, min, max)
+}
 
-	time := 0
-	for {
-		// Pop
-		pos := queue[0]
-		queue = queue[1:]
+func part2(input string) int {
+	lines := strings.Split(input, "\n")
+	walls := map[string]bool{"-1,1": true}
+	blizzards := []Blizzard{}
+	blizzardPositions := map[string]bool{}
 
-		// fmt.Println(pos)
-
-		// Made it to the end
-		if pos[0] == end[0] && pos[1] == end[1] {
-			fmt.Println("Made it to the end in", pos[2], "minutes.")
-			break
-		}
-
-		// Move blizzards
-		if pos[2] == time {
-			fmt.Println("Minute", time)
-			// show(blizzardPositions, walls, min, max)
-			blizzardPositions = moveBlizzards(blizzards, min, max)
-			time++
-		}
-
-		for i := 0; i < len(moves); i++ {
-			newY := pos[0] + moves[i][0]
-			newX := pos[1] + moves[i][1]
-			newTime := pos[2] + 1
-
-			key := createKey(newY, newX)
-			if !walls[key] && !blizzardPositions[key] {
-				queue = append(queue, []int{newY, newX, newTime})
+	for y := 0; y < len(lines); y++ {
+		line := lines[y]
+		for x := 0; x < len(line); x++ {
+			key := createKey(y, x)
+			if line[x] == '#' {
+				walls[key] = true
+			} else if line[x] == '^' {
+				blizzards = append(blizzards, Blizzard{y, x, 0})
+				blizzardPositions[key] = true
+			} else if line[x] == 'v' {
+				blizzards = append(blizzards, Blizzard{y, x, 1})
+				blizzardPositions[key] = true
+			} else if line[x] == '<' {
+				blizzards = append(blizzards, Blizzard{y, x, 2})
+				blizzardPositions[key] = true
+			} else if line[x] == '>' {
+				blizzards = append(blizzards, Blizzard{y, x, 3})
+				blizzardPositions[key] = true
 			}
 		}
 	}
 
-	return 1
-}
+	min := []int{1, 1}
+	max := []int{len(lines) - 2, len(lines[0]) - 2}
 
-func part2(input string) int {
-	return 2
+	start := []int{0, 1, 0}
+	end := []int{len(lines) - 1, len(lines[0]) - 2, 0}
+
+	a := findPath(start, end, blizzards, walls, min, max)
+	b := findPath(end, start, blizzards, walls, min, max) + 1
+	c := findPath(start, end, blizzards, walls, min, max) + 1
+
+	return a + b + c
 }
 
 func main() {
