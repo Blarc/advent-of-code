@@ -24,6 +24,12 @@ My solutions of the Advent of Code 2022 in **Go**.
 | 17  | [ Pyroclastic Flow           ](day17) | ★★   |
 | 18  | [ Boiling Boulders           ](day18) | ★★   |
 | 19  | [ Not Enough Minerals        ](day19) | ★★   |
+| 20  | [ Grove Positioning System   ](day20) | ★★   |
+| 21  | [ Monkey Math                ](day21) | ★★   |
+| 22  | [ Monkey Map                 ](day22) | ★★   |
+| 23  | [ Unstable Diffusion         ](day23) | ★★   |
+| 24  | [ Blizzard Basin             ](day24) | ★★   |
+
 
 
 
