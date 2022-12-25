@@ -29,6 +29,7 @@ My solutions of the Advent of Code 2022 in **Go**.
 | 22  | [ Monkey Map                 ](day22) | ★★   |
 | 23  | [ Unstable Diffusion         ](day23) | ★★   |
 | 24  | [ Blizzard Basin             ](day24) | ★★   |
+| 25  | [ Full of Hot Air            ](day25) | ★★   |
 
 
 
