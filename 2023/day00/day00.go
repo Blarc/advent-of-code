@@ -1,12 +1,15 @@
 package main
 
 import (
-	_ "embed"
 	"flag"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
+)
+
+import (
+	_ "embed"
 )
 
 //go:embed sample.txt
@@ -15,16 +18,36 @@ var sample string
 //go:embed input.txt
 var input string
 
+// 2018/day01
 func part1(input string) int {
-	for i, l := range strings.Split(input, "\n") {
+	sum := 0
+	for _, l := range strings.Split(input, "\n") {
 
 		var current, _ = strconv.Atoi(l)
+		sum += current
 	}
-	return 1
+	return sum
 }
 
 func part2(input string) int {
-	return 2
+	sum := 0
+	seen := make(map[int]bool)
+
+	input = strings.TrimSpace(input)
+	inputArray := strings.Split(input, "\n")
+
+	for {
+		for _, l := range inputArray {
+			var current, _ = strconv.Atoi(l)
+			sum += current
+
+			if seen[sum] {
+				return sum
+			}
+
+			seen[sum] = true
+		}
+	}
 }
 
 func main() {
@@ -38,10 +61,10 @@ func main() {
 
 	var inputText string
 	if *inputPtr {
-		inputText = strings.TrimSpace(input)
+		inputText = input
 		fmt.Println("Running part", part, "on input.txt.")
 	} else {
-		inputText = strings.TrimSpace(sample)
+		inputText = sample
 		fmt.Println("Running part", part, "on sample.txt.")
 	}
 
