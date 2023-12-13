@@ -13,7 +13,7 @@ My solutions of the Advent of Code 2023 in **Go**.
 | 7   | [ Camel Cards                     ](day07) |  ★★   |
 | 8   | [ Haunted Wasteland               ](day08) |  ★★   |
 | 9   | [ Mirage Maintenance              ](day09) |  ★★   |
-| 10  | [ Pipe Maze                       ](day10) |   ★   |
+| 10  | [ Pipe Maze                       ](day10) |  ★★   |
 | 11  | [ Cosmic Expansion                ](day11) |  ★★   |
 | 12  | [ Hot Springs                     ](day12) |  ★★   |
 | 13  | [ Point of Incidence              ](day13) |  ★★   |
