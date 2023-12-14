@@ -17,6 +17,7 @@ My solutions of the Advent of Code 2023 in **Go**.
 | 11  | [ Cosmic Expansion                ](day11) |  ★★   |
 | 12  | [ Hot Springs                     ](day12) |  ★★   |
 | 13  | [ Point of Incidence              ](day13) |  ★★   |
+| 14  | [ Parabolic Reflector Dish        ](day14) |  ★★   |
 
 
 
