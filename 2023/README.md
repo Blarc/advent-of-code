@@ -19,6 +19,7 @@ My solutions of the Advent of Code 2023 in **Go**.
 | 13  | [ Point of Incidence              ](day13) |  ★★   |
 | 14  | [ Parabolic Reflector Dish        ](day14) |  ★★   |
 | 15  | [ Lens Library                    ](day15) |  ★★   |
+| 16  | [ The Floor Will Be Lava          ](day16) |  ★★   |
 
 
 
