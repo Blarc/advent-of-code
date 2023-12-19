@@ -22,6 +22,7 @@ My solutions of the Advent of Code 2023 in **Go**.
 | 16  | [ The Floor Will Be Lava          ](day16) |  ★★   |
 | 17  | [ Clumsy Crucible                 ](day17) |       |
 | 18  | [ Lavaduct Lagoon                 ](day18) |  ★★   |
+| 19  | [ Aplenty                         ](day19) |  ★★   |
 
 
 
