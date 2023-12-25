@@ -27,6 +27,8 @@ My solutions of the Advent of Code 2023 in **Go**.
 | 21  | [ Step Counter                    ](day21) |   ★   |
 | 22  | [ Sand Slabs                      ](day22) |       |
 | 23  | [ A Long Walk                     ](day23) |  ★★   |
+| 24  | [ Never Tell Me The Odds          ](day24) |   ★   |
+| 25  | [ Snowverload                     ](day25) |   ★   |
 
 
 
