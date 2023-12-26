@@ -23,7 +23,7 @@ My solutions of the Advent of Code 2023 in **Go**.
 | 17  | [ Clumsy Crucible                 ](day17) |  ★★   |
 | 18  | [ Lavaduct Lagoon                 ](day18) |  ★★   |
 | 19  | [ Aplenty                         ](day19) |  ★★   |
-| 20  | [ Pulse Propagation               ](day20) |   ★   |
+| 20  | [ Pulse Propagation               ](day20) |  ★★   |
 | 21  | [ Step Counter                    ](day21) |   ★   |
 | 22  | [ Sand Slabs                      ](day22) |  ★★   |
 | 23  | [ A Long Walk                     ](day23) |  ★★   |
