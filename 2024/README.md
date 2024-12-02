@@ -7,5 +7,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | Day | Name                                  | Stars |
 |-----|---------------------------------------|:-----:|
 | 1   | [ Historian Hysteria ](src/bin/01.rs) |  ★★   |
+| 1   | [ Red-Nosed Reports ](src/bin/02.rs)  |  ★★   |
 
 
