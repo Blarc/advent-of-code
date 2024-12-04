@@ -9,5 +9,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 1   | [ Historian Hysteria ](src/bin/01.rs) |  ★★   |
 | 2   | [ Red-Nosed Reports ](src/bin/02.rs)  |  ★★   |
 | 3   | [ Mull It Over ](src/bin/03.rs)       |  ★★   |
+| 4   | [ Ceres Search ](src/bin/04.rs)       |  ★★   |
 
 
