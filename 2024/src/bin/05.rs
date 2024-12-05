@@ -3,6 +3,22 @@ use std::collections::{HashMap, HashSet};
 
 advent_of_code::solution!(5);
 
+pub fn rules_comparator(x1: &u32, x2: &u32, rules: &HashMap<u32, HashSet<u32>>) -> Ordering {
+    if let Some(rule1) = rules.get(x1) {
+        if rule1.contains(x2) {
+            return Ordering::Less;
+        }
+    }
+
+    if let Some(rule2) = rules.get(x2) {
+        if rule2.contains(x1) {
+            return Ordering::Greater;
+        }
+    }
+
+    Ordering::Equal
+}
+
 pub fn part_one(input: &str) -> Option<u32> {
     let mut rules: HashMap<u32, HashSet<u32>> = HashMap::new();
 
@@ -36,24 +52,9 @@ pub fn part_one(input: &str) -> Option<u32> {
                 .map(|x| x.parse().expect("Not an integer"))
                 .collect();
 
-            let correct = n.is_sorted_by(|x1, x2| {
-                if let Some(rule1) = rules.get(x1) {
-                    if rule1.contains(x2) {
-                        return true;
-                    }
-                }
-
-                if let Some(rule2) = rules.get(x2) {
-                    if rule2.contains(x1) {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
-
-
-            if correct {
+            let sorted =
+                n.is_sorted_by(|x1, x2| rules_comparator(x1, x2, &rules) != Ordering::Greater);
+            if sorted {
                 let middle_index = n.len() / 2;
                 sum += n[middle_index];
                 // println!("{:?}: {}", n, n[middle_index])
@@ -96,41 +97,10 @@ pub fn part_two(input: &str) -> Option<u32> {
                 .map(|x| x.parse().expect("Not an integer"))
                 .collect();
 
-            let correct = n.is_sorted_by(|x1, x2| {
-                if let Some(rule1) = rules.get(x1) {
-                    if rule1.contains(x2) {
-                        return true;
-                    }
-                }
-
-                if let Some(rule2) = rules.get(x2) {
-                    if rule2.contains(x1) {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
-
-
-            if !correct {
-
-                n.sort_by(|x3, x4| {
-                    if let Some(rule1) = rules.get(x3) {
-                        if rule1.contains(x4) {
-                            return Ordering::Less;
-                        }
-                    }
-
-                    if let Some(rule2) = rules.get(x4) {
-                        if rule2.contains(x3) {
-                            return Ordering::Greater;
-                        }
-                    }
-
-                    return Ordering::Equal;
-                });
-
+            let sorted =
+                n.is_sorted_by(|x1, x2| rules_comparator(x1, x2, &rules) != Ordering::Greater);
+            if !sorted {
+                n.sort_by(|x3, x4| rules_comparator(x3, x4, &rules));
                 let middle_index = n.len() / 2;
                 sum += n[middle_index];
                 // println!("{:?}: {}", n, n[middle_index])
