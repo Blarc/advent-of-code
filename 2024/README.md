@@ -11,5 +11,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 3   | [ Mull It Over ](src/bin/03.rs)       |  ★★   |
 | 4   | [ Ceres Search ](src/bin/04.rs)       |  ★★   |
 | 5   | [ Print Queue ](src/bin/05.rs)        |  ★★   |
+| 6   | [ Guard Gallivant ](src/bin/06.rs)    |  ★★   |
 
 
