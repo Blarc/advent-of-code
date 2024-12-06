@@ -1,81 +1,75 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 advent_of_code::solution!(6);
 
 const DIRS: [(i32, i32); 4] = [(-1, 0), (0, 1), (1, 0), (0, -1)];
 
-fn parse(input: &str) -> (Vec<Vec<char>>, (usize, usize, usize)) {
-    let mut guard = (0, 0, 0);
-    let grid = input
+fn create_grid(input: &str) -> HashMap<(i32, i32), char> {
+    input
         .lines()
         .enumerate()
-        .map(|(y, line): (usize, &str)| {
+        .flat_map(|(y, line)| {
             line.chars()
                 .enumerate()
-                .map(|(x, c): (usize, char)| {
-                    if c.eq(&'^') {
-                        guard = (y, x, 0)
-                    }
-                    c
-                })
-                .collect()
+                .map(move |(x, c)| ((y as i32, x as i32), c))
         })
-        .collect();
-    (grid, guard)
+        .collect()
 }
 
-pub fn is_loop(mut guard: (usize, usize, usize), grid: &Vec<Vec<char>>) -> (bool, HashSet<(usize, usize)>) {
-    let mut pos = HashSet::new();
-    let mut pos_with_dir = HashSet::new();
-    loop {
-        pos.insert((guard.0, guard.1));
-        let next = ((guard.0 as i32 + DIRS[guard.2].0) as usize, (guard.1 as i32 + DIRS[guard.2].1) as usize, guard.2);
-        if next.0 < grid.len() && next.1 < grid.len() {
+fn find_guard(grid: &HashMap<(i32, i32), char>) -> (i32, i32) {
+    let guard = grid
+        .iter()
+        .find_map(|(&pos, &c)| if c.eq(&'^') { Some(pos) } else { None })
+        .expect("Expected at least one '^' character in the grid");
+    guard
+}
 
-            if pos_with_dir.contains(&next) {
-                return (true, pos)
-            }
-
-            if grid[next.0][next.1].eq(&'#') {
-                pos_with_dir.insert(guard);
-                guard.2 += 1;
-                guard.2 %= 4;
-            } else {
-                guard = next;
-            }
+fn walk(
+    mut pos: (i32, i32),
+    grid: &HashMap<(i32, i32), char>,
+) -> (HashSet<(i32, i32)>, bool) {
+    let mut visited = HashSet::new();
+    let mut dir = 0;
+    while grid.contains_key(&pos) && !visited.contains(&(pos, dir)) {
+        visited.insert((pos, dir));
+        let next = (pos.0 + DIRS[dir].0, pos.1 + DIRS[dir].1);
+        if grid.get(&next) == Some(&'#') {
+            dir = (dir + 1) % 4
         } else {
-            return (false, pos);
+            pos = next
         }
     }
+
+    let is_loop = visited.contains(&(pos, dir));
+    // Remove duplicates that were created because of different dir
+    let path: HashSet<(i32, i32)> = visited.iter().map(|&x| x.0).collect();
+    (path, is_loop)
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
-    let (grid, guard) = parse(input);
-    let (_, guard_path) = is_loop(guard, &grid);
-    Some(guard_path.len() as u32)
+    let grid = create_grid(input);
+    let guard = find_guard(&grid);
+    let (path, _) = walk(guard, &grid);
+    Some(path.len() as u32)
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let (mut grid, guard) = parse(input);
-    let (_, guard_path) = is_loop(guard, &grid);
+    let mut grid = create_grid(input);
+    let guard = find_guard(&grid);
 
-    let mut result = 0;
-    for tile in guard_path {
-        if tile.0 == guard.0 && tile.1 == guard.1 {
-            continue
-        }
+    let (path, _) = walk(guard, &grid);
+    let result = path
+        .iter()
+        .filter(|&&pos| pos != guard)
+        .filter(|&&pos| {
+            grid.insert(pos, '#');
+            let (_, is_loop) = walk(guard, &grid);
+            grid.insert(pos, '.');
+            is_loop
+        })
+        .count();
 
-        grid[tile.0][tile.1] = '#';
-        let (is_loop, _) = is_loop(guard, &grid);
-        if is_loop {
-            result += 1;
-        }
-        grid[tile.0][tile.1] = '.';
-
-    }
-
-    // 2002 too high
-    Some(result)
+    Some(result as u32)
 }
 
 #[cfg(test)]
