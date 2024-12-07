@@ -12,5 +12,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 4   | [ Ceres Search ](src/bin/04.rs)       |  ★★   |
 | 5   | [ Print Queue ](src/bin/05.rs)        |  ★★   |
 | 6   | [ Guard Gallivant ](src/bin/06.rs)    |  ★★   |
+| 7   | [ Bridge Repair ](src/bin/07.rs)      |  ★★   |
 
 
