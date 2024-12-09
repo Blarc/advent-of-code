@@ -14,5 +14,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 6   | [ Guard Gallivant ](src/bin/06_)         |  ★★   |
 | 7   | [ Bridge Repair ](src/bin/07.rs)         |  ★★   |
 | 8   | [ Resonant Collinearity ](src/bin/08.rs) |  ★★   |
+| 9   | [ Disk Fragmenter ](src/bin/09.rs)       |  ★★   |
 
 
