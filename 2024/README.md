@@ -15,6 +15,7 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 7   | [ Bridge Repair ](src/bin/07.rs)         |  ★★   |
 | 8   | [ Resonant Collinearity ](src/bin/08.rs) |  ★★   |
 | 9   | [ Disk Fragmenter ](src/bin/09.rs)       |  ★★   |
-| 10  | [ Hoof It ](src/bin/010.rs)              |  ★★   |
+| 10  | [ Hoof It ](src/bin/10.rs)               |  ★★   |
+| 11  | [ Plutonian Pebbles ](src/bin/11.rs)     |  ★★   |
 
 
