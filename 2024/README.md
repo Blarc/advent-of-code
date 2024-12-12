@@ -17,5 +17,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 9   | [ Disk Fragmenter ](src/bin/09.rs)       |  ★★   |
 | 10  | [ Hoof It ](src/bin/10.rs)               |  ★★   |
 | 11  | [ Plutonian Pebbles ](src/bin/11.rs)     |  ★★   |
+| 12  | [ Garden Groups ](src/bin/12.rs)         |  ★★   |
 
 
