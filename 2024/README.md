@@ -18,5 +18,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 10  | [ Hoof It ](src/bin/10.rs)               |  ★★   |
 | 11  | [ Plutonian Pebbles ](src/bin/11.rs)     |  ★★   |
 | 12  | [ Garden Groups ](src/bin/12.rs)         |  ★★   |
+| 13  | [ Claw Contraption ](src/bin/13.rs)      |  ★★   |
 
 

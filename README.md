@@ -19,4 +19,4 @@ contains one directory for each puzzle, organized by day. Each puzzle directory 
 | [ 2021 ](2021) |  36   |
 | [ 2022 ](2022) |  50   |
 | [ 2023 ](2023) |  47   |
-| [ 2024 ](2024) |  24   |
+| [ 2024 ](2024) |  26   |
