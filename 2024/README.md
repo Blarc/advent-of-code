@@ -19,5 +19,7 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 11  | [ Plutonian Pebbles ](src/bin/11.rs)     |  ★★   |
 | 12  | [ Garden Groups ](src/bin/12.rs)         |  ★★   |
 | 13  | [ Claw Contraption ](src/bin/13.rs)      |  ★★   |
+| 14  | [ Restroom Redoubt ](src/bin/14.rs)      |  ★★   |
+| 15  | [ Warehouse Woes ](src/bin/15.rs)        |  ★★   |
 
 
