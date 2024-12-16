@@ -21,5 +21,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 13  | [ Claw Contraption ](src/bin/13.rs)      |  ★★   |
 | 14  | [ Restroom Redoubt ](src/bin/14.rs)      |  ★★   |
 | 15  | [ Warehouse Woes ](src/bin/15.rs)        |  ★★   |
+| 16  | [ Reindeer Maze ](src/bin/16.rs)         |  ★★   |
 
 
