@@ -25,5 +25,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 17  | [ Chronospatial Computer ](src/bin/17.rs) |  ★★   |
 | 18  | [ RAM Run ](src/bin/18.rs)                |  ★★   |
 | 19  | [ Linen Layout ](src/bin/19.rs)           |  ★★   |
+| 20  | [ Race Condition ](src/bin/20.rs)         |  ★★   |
 
 
