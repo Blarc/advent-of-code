@@ -28,5 +28,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 20  | [ Race Condition ](src/bin/20.rs)         |  ★★   |
 | 21  | [ Keypad Conundrum ](src/bin/21.rs)       |  ★★   |
 | 22  | [ Monkey Market ](src/bin/21.rs)          |  ★★   |
+| 23  | [ LAN Party ](src/bin/21.rs)              |  ★★   |
 
 
