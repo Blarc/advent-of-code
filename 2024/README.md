@@ -30,5 +30,6 @@ Template: https://github.com/fspoettel/advent-of-code-rust.
 | 22  | [ Monkey Market ](src/bin/22.rs)          |  ★★   |
 | 23  | [ LAN Party ](src/bin/23.rs)              |  ★★   |
 | 24  | [ Crossed Wires ](src/bin/24.rs)          |  ★★   |
+| 25  | [ Code Chronicle ](src/bin/25.rs)         |  ★★   |
 
 
