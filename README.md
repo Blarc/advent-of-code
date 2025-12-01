@@ -5,8 +5,8 @@ This repository contains my solutions to the [Advent of Code](https://adventofco
 ## About Advent of Code
 
 Advent of Code is an annual programming challenge that takes place throughout the month of December. Each day, a new
-puzzle is released and participants must use their programming skills to solve it. The puzzles are designed to be
-challenging and engaging, and often require some creative thinking to solve.
+puzzle is released, and participants must use their programming skills to solve it. The puzzles are designed to be
+challenging and engaging and often require some creative thinking to solve.
 
 ## Contents
 
@@ -20,3 +20,4 @@ contains one directory for each puzzle, organized by day. Each puzzle directory 
 | [ 2022 ](2022) |  50   |
 | [ 2023 ](2023) |  47   |
 | [ 2024 ](2024) |  50   |
+| [ 2025 ](2025) |   2   |
