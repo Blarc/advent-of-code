@@ -11,3 +11,4 @@ My solutions of the Advent of Code 2025 in **Go**.
 | 5   | [ Cafeteria           ](day05/day05.go) |  ★★   |
 | 6   | [ Trash Compactor     ](day06/day06.go) |  ★★   |
 | 7   | [ Laboratories        ](day07/day07.go) |  ★★   |
+| 8   | [ Playground          ](day08/day08.go) |  ★★   |
