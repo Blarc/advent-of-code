@@ -14,3 +14,4 @@ My solutions of the Advent of Code 2025 in **Go**.
 | 8   | [ Playground          ](day08/day08.go) |  ★★   |
 | 9   | [ Movie Theater       ](day09/day09.go) |  ★★   |
 | 10  | [ Factory             ](day10/day10.go) |  ★★   |
+| 11  | [ Reactor             ](day11/day11.go) |  ★★   |
